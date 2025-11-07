@@ -488,7 +488,7 @@
                     <h1 data-i18n="landing.title">Test Your Cybersecurity Knowledge</h1>
                     <p data-i18n="landing.intro1">CYBRSHIELD is your interactive cybersecurity quiz designed to test and improve your knowledge about online safety, threats, and best practices.</p>
                     <p data-i18n="landing.intro2">Our quiz covers essential topics like phishing, malware, encryption, and more. Challenge yourself and become a cybersecurity champion!</p>
-                    
+
                     <div class="features">
                         <div class="feature">
                             <div class="feature-icon">🔒</div>
@@ -506,7 +506,7 @@
                             <p data-i18n="landing.feature3desc">Available in both English and Arabic languages</p>
                         </div>
                     </div>
-                    
+
                     <div class="stats">
                         <div class="stat">
                             <span class="stat-number" id="last-score">--</span>
@@ -521,7 +521,7 @@
                             <span class="stat-label" data-i18n="landing.perQuestion">Per Question</span>
                         </div>
                     </div>
-                    
+
                     <div style="text-align: center; margin-top: 30px;">
                         <button class="btn btn-large btn-accent" id="start-quiz-btn" data-i18n="landing.startQuiz">Start Quiz</button>
                     </div>
@@ -536,24 +536,24 @@
                     <div class="progress-bar">
                         <div class="progress" id="quiz-progress" style="width: 0%;"></div>
                     </div>
-                    
+
                     <div class="question-counter">
                         <span id="current-question">1</span> / <span id="total-questions">20</span>
                     </div>
-                    
+
                     <div class="timer-container">
                         <div class="timer">
                             <div class="timer-ring" id="timer-ring"></div>
                             <span id="timer-display">30</span>
                         </div>
                     </div>
-                    
+
                     <div class="question-text" id="question-text"></div>
-                    
+
                     <div class="options-container" id="options-container"></div>
-                    
+
                     <div class="feedback hidden" id="feedback"></div>
-                    
+
                     <button class="btn hidden" id="ai-explain-btn" 
                             style="background-color: var(--secondary); margin-top: 10px; width: 100%;" 
                             data-i18n="quiz.aiExplain">
@@ -567,7 +567,7 @@
                     </div>
                     <button class="btn next-btn hidden" id="next-btn" data-i18n="quiz.next">Next Question</button>
                 </div>
-                
+
                 <div class="settings-panel">
                      </div>
             </section>
@@ -575,11 +575,11 @@
             <section id="results-page" class="hidden">
                 <div class="card results-container">
                     <h2 data-i18n="results.title">Quiz Completed!</h2>
-                    
+
                     <div class="score-display" id="final-score">0/20</div>
-                    
+
                     <div class="score-message" id="score-message"></div>
-                    
+
                     <div id="ai-tips-section" style="margin-bottom: 30px;">
                         <button class="btn btn-accent" id="ai-tips-btn" data-i18n="results.aiTips">
                             🤖 احصل على نصائح بالذكاء الاصطناعي
@@ -595,7 +595,7 @@
                         <p data-i18n="results.share">Share your result:</p>
                         <button class="btn share-btn" id="share-btn" data-i18n="results.copyResult">Copy Result to Clipboard</button>
                     </div>
-                    
+
                     <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
                         <button class="btn" id="retry-btn" data-i18n="results.retry">Try Again</button>
                         <button class="btn btn-accent" id="home-btn" data-i18n="results.home">Back to Home</button>
@@ -741,7 +741,7 @@
             aiFeedbackDiv.classList.remove('hidden');
             aiExplanationDiv.innerHTML = translations[lang]["quiz.aiLoading"];
             aiExplanationDiv.style.textAlign = lang === 'ar' ? 'right' : 'left';
-            
+
             const languageInstruction = lang === 'ar' 
                 ? "استخدم اللغة العربية الفصحى الواضحة والمبسطة."
                 : "Use simple and clear English.";
@@ -790,7 +790,7 @@
                     throw new Error(`Server function error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                
+
                 if (data && data.candidates && data.candidates[0].content) {
                     const explanation = data.candidates[0].content.parts[0].text;
                     aiExplanationDiv.innerHTML = explanation.replace(/\n/g, '<br>');
@@ -805,7 +805,7 @@
                 aiExplanationDiv.innerHTML = translations[lang]["quiz.aiError"];
             }
         }
-        
+
         // ⭐️ دالة جلب النصائح (كانت صحيحة ولم تتغير)
         async function fetchAITips(userScore, totalQuestions, lang = 'ar') {
             const tipsContainer = document.getElementById('ai-tips-container');
@@ -814,7 +814,7 @@
             tipsContainer.classList.remove('hidden');
             tipsExplanationDiv.innerHTML = translations[lang]["results.aiTipsLoading"];
             tipsExplanationDiv.style.textAlign = lang === 'ar' ? 'right' : 'left';
-            
+
             const languageInstruction = lang === 'ar' 
                 ? "استخدم اللغة العربية الفصحى الواضحة والمبسطة في نقاط."
                 : "Use simple and clear English in bullet points.";
@@ -825,7 +825,7 @@
                 Their final score was: ${userScore} out of ${totalQuestions}.
 
                 Your task is to provide personalized, encouraging feedback and 3-4 actionable tips to help them improve.
-                
+
                 1.  Start with an encouraging comment based on their score (e.g., "Great job!", "Good start!", "You're learning!").
                 2.  Based on their score (low, medium, or high), generate 3-4 specific, actionable tips.
                 3.  If the score is low (e.g., < 10), focus on fundamentals (phishing, strong passwords, suspicious links).
@@ -858,7 +858,7 @@
                 }
 
                 const data = await response.json();
-                
+
                 if (data && data.candidates && data.candidates[0].content) {
                     const explanation = data.candidates[0].content.parts[0].text;
                     tipsExplanationDiv.innerHTML = explanation.replace(/\n/g, '<br>');
@@ -898,7 +898,7 @@
             const scoreMessageEl = document.getElementById('score-message');
             const aiExplainBtn = document.getElementById('ai-explain-btn');
             const aiFeedbackDiv = document.getElementById('ai-feedback');
-            
+
             function setLanguage(lang) {
                 currentLang = lang;
                 document.documentElement.lang = lang;
@@ -1009,7 +1009,7 @@
                 resultsPage.classList.remove('hidden');
 
                 finalScoreEl.textContent = `${score}/${shuffledQuestions.length}`;
-                
+
                 const scorePercent = (score / shuffledQuestions.length);
                 let messageKey = "score.message0";
                 if (scorePercent >= 0.9) {
@@ -1023,13 +1023,13 @@
 
                 const aiTipsBtn = document.getElementById('ai-tips-btn');
                 const aiTipsContainer = document.getElementById('ai-tips-container');
-                
+
                 aiTipsBtn.classList.remove('hidden');
                 aiTipsContainer.classList.add('hidden');
-                
+
                 aiTipsBtn.replaceWith(aiTipsBtn.cloneNode(true));
                 const newAiTipsBtn = document.getElementById('ai-tips-btn');
-                
+
                 newAiTipsBtn.textContent = translations[currentLang]["results.aiTips"];
 
                 newAiTipsBtn.addEventListener('click', () => {
