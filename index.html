@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBRSHIELD - Cybersecurity Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS الخاص بك بالكامل - لم يتغير */
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2d4a8a;
+            --secondary: #0e7490;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        [dir="rtl"] {
+            --font-primary: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        [dir="ltr"] {
+            --font-primary: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .language-toggle {
+            display: flex;
+            gap: 8px;
+            background: var(--surface);
+            padding: 6px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background: var(--secondary);
+        }
+
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 1.1rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            background: var(--background);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 15px;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .question-counter {
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .timer {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .timer-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent) 0%, #e2e8f0 0%);
+            -webkit-mask: radial-gradient(transparent 55%, black 56%);
+            mask: radial-gradient(transparent 55%, black 56%);
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .options-container {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            padding: 16px 20px;
+            background: var(--background);
+            border: 2px solid transparent;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .option:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .option.selected {
+            border-color: var(--accent);
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        .option.correct {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .option.incorrect {
+            border-color: var(--error);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .feedback {
+            text-align: center;
+            padding: 20px;
+            border-radius: var(--radius);
+            margin: 20px 0;
+            font-weight: 600;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+        }
+
+        .next-btn {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .results-container {
+            text-align: center;
+        }
+
+        .score-display {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 20px 0;
+        }
+
+        .score-message {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+        }
+
+        .share-result {
+            margin: 30px 0;
+            padding: 20px;
+            background: var(--background);
+            border-radius: var(--radius);
+        }
+
+        .share-btn {
+            margin-top: 15px;
+        }
+
+        .settings-panel {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        select {
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            border: 1px solid #cbd5e1;
+            background: var(--surface);
+            font-family: inherit;
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .card { padding: 20px; }
+            .features { grid-template-columns: 1fr; }
+            .stats { flex-direction: column; }
+            .question-text { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">C</div>
+                <div class="logo-text">CYBRSHIELD</div>
+            </div>
+            <div class="language-toggle">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="ar">AR</button>
+            </div>
+        </header>
+
+        <main>
+            <section id="landing-page">
+                <div class="card">
+                    <h1 data-i18n="landing.title">Test Your Cybersecurity Knowledge</h1>
+                    <p data-i18n="landing.intro1">CYBRSHIELD is your interactive cybersecurity quiz designed to test and improve your knowledge about online safety, threats, and best practices.</p>
+                    <p data-i18n="landing.intro2">Our quiz covers essential topics like phishing, malware, encryption, and more. Challenge yourself and become a cybersecurity champion!</p>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <div class="feature-icon">🔒</div>
+                            <h3 data-i18n="landing.feature1">20 Questions</h3>
+                            <p data-i18n="landing.feature1desc">Comprehensive coverage of cybersecurity fundamentals</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">⏱️</div>
+                            <h3 data-i18n="landing.feature2">Timed Challenge</h3>
+                            <p data-i18n="landing.feature2desc">Test your knowledge under pressure with per-question timer</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">🌐</div>
+                            <h3 data-i18n="landing.feature3">Bilingual</h3>
+                            <p data-i18n="landing.feature3desc">Available in both English and Arabic languages</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="stat-number" id="last-score">--</span>
+                            <span class="stat-label" data-i18n="landing.lastScore">Last Score</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">20</span>
+                            <span class="stat-label" data-i18n="landing.questions">Questions</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">30s</span>
+                            <span class="stat-label" data-i18n="landing.perQuestion">Per Question</span>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button class="btn btn-large btn-accent" id="start-quiz-btn" data-i18n="landing.startQuiz">Start Quiz</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="language-selection" class="hidden">
+                 </section>
+
+            <section id="quiz-page" class="hidden">
+                <div class="card quiz-container">
+                    <div class="progress-bar">
+                        <div class="progress" id="quiz-progress" style="width: 0%;"></div>
+                    </div>
+                    
+                    <div class="question-counter">
+                        <span id="current-question">1</span> / <span id="total-questions">20</span>
+                    </div>
+                    
+                    <div class="timer-container">
+                        <div class="timer">
+                            <div class="timer-ring" id="timer-ring"></div>
+                            <span id="timer-display">30</span>
+                        </div>
+                    </div>
+                    
+                    <div class="question-text" id="question-text"></div>
+                    
+                    <div class="options-container" id="options-container"></div>
+                    
+                    <div class="feedback hidden" id="feedback"></div>
+                    
+                    <button class="btn hidden" id="ai-explain-btn" 
+                            style="background-color: var(--secondary); margin-top: 10px; width: 100%;" 
+                            data-i18n="quiz.aiExplain">
+                        💡 اطلب من الـ AI شرح هذه الإجابة
+                    </button>
+                    <div id="ai-feedback" class="hidden" style="margin-top: 20px;">
+                        <h3 style="margin-bottom: 10px;" data-i18n="quiz.aiTitle">🤖 شرح بالذكاء الاصطناعي:</h3>
+                        <div id="ai-explanation" class="feedback" style="background-color: #f0f6ff; border: 1px solid #d0e1ff; color: var(--text-primary); text-align: left; padding: 15px; display: block;">
+                            جاري تحضير الشرح...
+                        </div>
+                    </div>
+                    <button class="btn next-btn hidden" id="next-btn" data-i18n="quiz.next">Next Question</button>
+                </div>
+                
+                <div class="settings-panel">
+                     </div>
+            </section>
+
+            <section id="results-page" class="hidden">
+                <div class="card results-container">
+                    <h2 data-i18n="results.title">Quiz Completed!</h2>
+                    
+                    <div class="score-display" id="final-score">0/20</div>
+                    
+                    <div class="score-message" id="score-message"></div>
+                    
+                    <div id="ai-tips-section" style="margin-bottom: 30px;">
+                        <button class="btn btn-accent" id="ai-tips-btn" data-i18n="results.aiTips">
+                            🤖 احصل على نصائح بالذكاء الاصطناعي
+                        </button>
+                        <div id="ai-tips-container" class="hidden" style="margin-top: 20px;">
+                            <h3 style="margin-bottom: 10px;" data-i18n="results.aiTipsTitle">🤖 نصائحك المخصصة:</h3>
+                            <div id="ai-tips-explanation" class="feedback" style="background-color: #f0f6ff; border: 1px solid #d0e1ff; color: var(--text-primary); text-align: left; padding: 15px; display: block;">
+                                ...
+                            </div>
+                        </div>
+                    </div>
+                    <div class="share-result">
+                        <p data-i18n="results.share">Share your result:</p>
+                        <button class="btn share-btn" id="share-btn" data-i18n="results.copyResult">Copy Result to Clipboard</button>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
+                        <button class="btn" id="retry-btn" data-i18n="results.retry">Try Again</button>
+                        <button class="btn btn-accent" id="home-btn" data-i18n="results.home">Back to Home</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <script>
+        // ⭐️ الرابط الآمن (لم يتغير)
+        const API_URL = `/.netlify/functions/gemini`;
+
+        // ⭐️ بيانات الاختبار (لم تتغير)
+        const quizData = {
+            en: [
+                { question: "What does the 'C' in CIA triad stand for in cybersecurity?", options: ["Confidentiality", "Compliance", "Control", "Cyber"], correct: 0 },
+                { question: "Which of these is a common sign of a phishing email?", options: ["Urgent action required", "Personalized greeting", "Professional logo", "Clear sender information"], correct: 0 },
+                { question: "What is the primary purpose of a firewall?", options: ["Monitor and control network traffic", "Encrypt data", "Detect viruses", "Backup files"], correct: 0 },
+                { question: "Which password is considered the most secure?", options: ["Tr0ub4dor&3", "password", "123456", "qwerty"], correct: 0 },
+                { question: "What does 2FA stand for?", options: ["Two-Factor Authentication", "Two-File Access", "Two-Function Application", "Two-Form Authorization"], correct: 0 },
+                { question: "What type of attack involves injecting malicious scripts into webpages?", options: ["XSS (Cross-Site Scripting)", "SQL Injection", "Phishing", "DDoS"], correct: 0 },
+                { question: "What is the purpose of SSL/TLS certificates?", options: ["Encrypt data in transit", "Store passwords", "Block malware", "Monitor network"], correct: 0 },
+                { question: "Which of these is NOT a type of malware?", options: ["Firewall", "Virus", "Worm", "Trojan"], correct: 0 },
+                { question: "What does 'least privilege' principle mean?", options: ["Users should have only necessary access", "All users have admin rights", "Privileges are granted permanently", "Access is based on seniority"], correct: 0 },
+                { question: "What is the main purpose of encryption?", options: ["Protect data confidentiality", "Increase data size", "Speed up transmission", "Simplify data access"], correct: 0 },
+                { question: "Which practice helps protect against ransomware?", options: ["Regular backups", "Using simple passwords", "Sharing admin credentials", "Disabling antivirus"], correct: 0 },
+                { question: "What does VPN stand for?", options: ["Virtual Private Network", "Virtual Public Network", "Verified Private Network", "Virtual Protection Node"], correct: 0 },
+                { question: "What is social engineering?", options: ["Manipulating people to divulge information", "Engineering social media platforms", "Designing secure systems", "Analyzing social networks"], correct: 0 },
+                { question: "What is the purpose of hashing passwords?", options: ["Verify password without storing it", "Make passwords easier to remember", "Increase password length", "Share passwords securely"], correct: 0 },
+                { question: "Which is a key step in incident response?", options: ["Containment", "Ignoring the incident", "Deleting evidence", "Continuing normal operations"], correct: 0 },
+                { question: "What does SQL injection target?", options: ["Databases", "Email accounts", "Network routers", "User devices"], correct: 0 },
+                { question: "Why is regular software patching important?", options: ["Fix security vulnerabilities", "Increase software cost", "Change user interface", "Add unnecessary features"], correct: 0 },
+                { question: "What is the difference between public and private keys?", options: ["Public key encrypts, private key decrypts", "Both are the same", "Private key is shared publicly", "Public key is kept secret"], correct: 0 },
+                { question: "What should you do if you suspect a security breach?", options: ["Report to IT security team", "Ignore it", "Try to fix it yourself", "Share details on social media"], correct: 0 },
+                { question: "Which browsing practice enhances security?", options: ["Checking for HTTPS", "Saving all passwords in browser", "Disabling browser updates", "Clicking all links in emails"], correct: 0 }
+            ],
+            ar: [
+                { question: "ماذا يمثل الحرف 'C' في ثلاثية CIA في الأمن السيبراني؟", options: ["السرية", "الامتثال", "التحكم", "السيبرانية"], correct: 0 },
+                { question: "أي من هذه العلامات تشير إلى بريد تصيد احتيالي؟", options: ["طلب اتخاذ إجراء عاجل", "تحية شخصية", "شعار احترافي", "معلومات مرسل واضحة"], correct: 0 },
+                { question: "ما هو الغرض الأساسي من جدار الحماية؟", options: ["مراقبة وتحكم حركة المرور على الشبكة", "تشفير البيانات", "كشف الفيروسات", "نسخ احتياطي للملفات"], correct: 0 },
+                { question: "أي من كلمات المرور هذه تعتبر الأكثر أمانًا؟", options: ["Tr0ub4dor&3", "password", "123456", "qwerty"], correct: 0 },
+                { question: "ماذا يعني الاختصار 2FA؟", options: ["المصادقة الثنائية", "الوصول ثنائي الملف", "التطبيق ثنائي الوظيفة", "التفويض ثنائي النموذج"], correct: 0 },
+                { question: "أي نوع من الهجمات يتضمن حقن نصوص برمجية ضارة في صفحات الويب؟", options: ["XSS (التنفيذ عبر المواقع)", "حقن SQL", "التصيد الاحتيالي", "هجوم حجب الخدمة"], correct: 0 },
+                { question: "ما هو الغرض من شهادات SSL/TLS؟", options: ["تشفير البيانات أثناء النقل", "تخزين كلمات المرور", "منع البرامج الضارة", "مراقبة الشبكة"], correct: 0 },
+                { question: "أي من هذه ليس نوعًا من البرامج الضارة؟", options: ["جدار الحماية", "الفيروس", "الدودة", "حصان طروادة"], correct: 0 },
+                { question: "ماذا يعني مبدأ 'أقل امتياز'؟", options: ["يجب أن يكون للمستخدمين الوصول الضروري فقط", "جميع المستخدمين لديهم صلاحيات المسؤول", "يتم منح الامتيازات بشكل دائم", "يتم منح الوصول بناءًon الأقدمية"], correct: 0 },
+                { question: "ما هو الغرض الرئيسي من التشفير؟", options: ["حماية سرية البيانات", "زيادة حجم البيانات", "تسريع الإرسال", "تبسيط الوصول إلى البيانات"], correct: 0 },
+                { question: "أي ممارسة تساعد في الحماية من برامج الفدية؟", options: ["النسخ الاحتياطي المنتظم", "استخدام كلمات مرور بسيطة", "مشاركة بيانات اعتماد المسؤول", "تعطيل مضاد الفيروسات"], correct: 0 },
+                { question: "ماذا يعني الاختصار VPN؟", options: ["شبكة افتراضية خاصة", "شبكة عامة افتراضية", "شبكة خاصة موثوقة", "عقدة حماية افتراضية"], correct: 0 },
+                { question: "ما هو الهندسة الاجتماعية؟", options: ["التلاعب بالأشخاص للكشف عن المعلومات", "هندسة منصات التواصل الاجتماعي", "تصميم أنظمة آمنة", "تحليل الشبكات الاجتماعية"], correct: 0 },
+                { question: "ما هو الغرض من تجزئة كلمات المرور؟", options: ["التحقق من كلمة المرور دون تخزينها", "جعل كلمات المرور أسهل للتذكر", "زيادة طول كلمة المرور", "مشاركة كلمات المرور بأمان"], correct: 0 },
+                { question: "أي من هذه خطوة رئيسية في الاستجابة للحوادث؟", options: ["الاحتواء", "تجاهل الحادث", "حذف الأدلة", "مواصلة العمليات العادية"], correct: 0 },
+                { question: "ما هو الهدف من هجوم حقن SQL؟", options: ["قواعد البيانات", "حسابات البريد الإلكتروني", "موجهات الشبكة", "أجهزة المستخدم"], correct: 0 },
+                { question: "لماذا يعتبر تحديث البرامج المنتظم مهمًا؟", options: ["إصلاح الثغرات الأمنية", "زيادة تكلفة البرنامج", "تغيير واجهة المستخدم", "إضافة ميزات غير ضرورية"], correct: 0 },
+                { question: "ما الفرق بين المفاتيح العامة والخاصة؟", options: ["المفتاح العام يشفر، المفتاح الخاص يفك التشفير", "كلاهما نفس الشيء", "يتم مشاركة المفتاح الخاص علنًا", "يتم الاحتفاظ بالمفتاح العام سرًا"], correct: 0 },
+                { question: "ماذا يجب أن تفعل إذا اشتبهت في حدوث خرق أمني؟", options: ["الإبلاغ لفريق الأمن التقني", "تجاهله", "محاولة إصلاحه بنفسك", "مشاركة التفاصيل على وسائل التواصل الاجتماعي"], correct: 0 },
+                { question: "أي ممارسة تصفح تعزز الأمان؟", options: ["التحقق من وجود HTTPS", "حفظ جميع كلمات المرور في المتصفح", "تعطيل تحديثات المتصفح", "النقر على جميع الروابط في رسائل البريد الإلكتروني"], correct: 0 }
+            ]
+        };
+
+        // ⭐️ نصوص الترجمة (لم تتغير)
+        const translations = {
+            en: {
+                "landing.title": "Test Your Cybersecurity Knowledge",
+                "landing.intro1": "CYBRSHIELD is your interactive cybersecurity quiz designed to test and improve your knowledge about online safety, threats, and best practices.",
+                "landing.intro2": "Our quiz covers essential topics like phishing, malware, encryption, and more. Challenge yourself and become a cybersecurity champion!",
+                "landing.feature1": "20 Questions",
+                "landing.feature1desc": "Comprehensive coverage of cybersecurity fundamentals",
+                "landing.feature2": "Timed Challenge",
+                "landing.feature2desc": "Test your knowledge under pressure with per-question timer",
+                "landing.feature3": "Bilingual",
+                "landing.feature3desc": "Available in both English and Arabic languages",
+                "landing.lastScore": "Last Score",
+                "landing.questions": "Questions",
+                "landing.perQuestion": "Per Question",
+                "landing.startQuiz": "Start Quiz",
+                "quiz.next": "Next Question",
+                "quiz.aiExplain": "💡 Ask AI to Explain this Answer",
+                "quiz.aiTitle": "🤖 AI Explanation:",
+                "quiz.aiLoading": "Generating explanation... 🧠",
+                "quiz.aiError": "Sorry, an error occurred while fetching the explanation. Please try again later.",
+                "results.title": "Quiz Completed!",
+                "results.share": "Share your result:",
+                "results.copyResult": "Copy Result to Clipboard",
+                "results.retry": "Try Again",
+                "results.home": "Back to Home",
+                "results.aiTips": "🤖 Get Personalized AI Tips",
+                "results.aiTipsTitle": "🤖 Your Personalized Tips:",
+                "results.aiTipsLoading": "Generating your tips... 🧠",
+                "results.aiTipsError": "Sorry, an error occurred while fetching tips.",
+                "feedback.correct": "Correct!",
+                "feedback.incorrect": "Incorrect!",
+                "score.message0": "Ouch! Keep studying, you'll get better.",
+                "score.message1": "Not bad! You're learning.",
+                "score.message2": "Good job! You have a solid foundation.",
+                "score.message3": "Excellent! You're a CYBRSHIELD champion!",
+            },
+            ar: {
+                "landing.title": "اختبر معرفتك بالأمن السيبراني",
+                "landing.intro1": "CYBRSHIELD هو اختبارك التفاعلي للأمن السيبراني المصمم لاختبار وتحسين معرفتك حول السلامة عبر الإنترنت والتهديدات وأفضل الممارسات.",
+                "landing.intro2": "يغطي اختبارنا موضوعات أساسية مثل التصيد الاحتيالي والبرامج الضارة والتشفير والمزيد. تحدى نفسك وكن بطلاً في الأمن السيبراني!",
+                "landing.feature1": "20 سؤالاً",
+                "landing.feature1desc": "تغطية شاملة لأساسيات الأمن السيبراني",
+                "landing.feature2": "تحدي موقوت",
+                "landing.feature2desc": "اختبر معلوماتك تحت الضغط مع مؤقت لكل سؤال",
+                "landing.feature3": "ثنائي اللغة",
+                "landing.feature3desc": "متوفر باللغتين الإنجليزية والعربية",
+                "landing.lastScore": "آخر نتيجة",
+                "landing.questions": "أسئلة",
+                "landing.perQuestion": "لكل سؤال",
+                "landing.startQuiz": "ابدأ الاختبار",
+                "quiz.next": "السؤال التالي",
+                "quiz.aiExplain": "💡 اطلب من الـ AI شرح هذه الإجابة",
+                "quiz.aiTitle": "🤖 شرح بالذكاء الاصطناعي:",
+                "quiz.aiLoading": "جاري تحضير الشرح... 🧠",
+                "quiz.aiError": "عذراً، حدث خطأ أثناء محاولة جلب الشرح. يرجى المحاولة لاحقاً.",
+                "results.title": "اكتمل الاختبار!",
+                "results.share": "شارك نتيجتك:",
+                "results.copyResult": "انسخ النتيجة إلى الحافظة",
+                "results.retry": "أعد المحاولة",
+                "results.home": "العودة للرئيسية",
+                "results.aiTips": "🤖 احصل على نصائح بالذكاء الاصطناعي",
+                "results.aiTipsTitle": "🤖 نصائحك المخصصة:",
+                "results.aiTipsLoading": "جاري تحضير نصائحك... 🧠",
+                "results.aiTipsError": "عذراً، حدث خطأ أثناء جلب النصائح.",
+                "feedback.correct": "إجابة صحيحة!",
+                "feedback.incorrect": "إجابة خاطئة!",
+                "score.message0": "أوتش! استمر في المذاكرة، ستتحسن.",
+                "score.message1": "ليس سيئاً! أنت تتعلم.",
+                "score.message2": "عمل جيد! لديك أساس متين.",
+                "score.message3": "ممتاز! أنت بطل CYBRSHIELD!",
+            }
+        };
+
+        // ⭐️⭐️⭐️ هذا هو الكود الصحيح والمعدل ⭐️⭐️⭐️
+        async function fetchAIExplanation(question, options, correctAnswer, userAnswer, lang = 'ar') {
+            const aiExplanationDiv = document.getElementById('ai-explanation');
+            const aiFeedbackDiv = document.getElementById('ai-feedback');
+
+            aiFeedbackDiv.classList.remove('hidden');
+            aiExplanationDiv.innerHTML = translations[lang]["quiz.aiLoading"];
+            aiExplanationDiv.style.textAlign = lang === 'ar' ? 'right' : 'left';
+            
+            const languageInstruction = lang === 'ar' 
+                ? "استخدم اللغة العربية الفصحى الواضحة والمبسطة."
+                : "Use simple and clear English.";
+
+            // ⭐️⭐️⭐️ 1. تم نقل الـ prompt إلى هنا (قبل requestBody) ⭐️⭐️⭐️
+            const prompt = `
+                You are an expert cybersecurity tutor.
+                A beginner student just answered a quiz question.
+
+                Question: "${question}"
+                Options: 
+                ${options.map((opt, i) => `- ${opt}`).join('\n')}
+
+                Their Answer: "${userAnswer}"
+                The Correct Answer: "${correctAnswer}"
+
+                Your task is to provide a brief, helpful explanation (in ${lang === 'ar' ? 'Arabic' : 'English'}).
+                1.  Start by confirming the correct answer.
+                2.  Explain *why* "${correctAnswer}" is the correct choice.
+                3.  If their answer was wrong, briefly explain why "${userAnswer}" is incorrect.
+                4.  Keep the tone simple, encouraging, and suitable for a beginner.
+                5.  ${languageInstruction}
+                6.  Do not start with "Certainly!" or "Here is the explanation:". Just start the explanation directly.
+            `;
+
+            // ⭐️⭐️⭐️ 2. الآن requestBody يمكنه استخدام الـ prompt بشكل صحيح ⭐️⭐️⭐️
+            const requestBody = {
+                contents: [ { parts: [ { text: prompt } ] } ],
+                generationConfig: {
+                    temperature: 0.7,
+                    maxOutputTokens: 300, 
+                }
+            };
+
+            // 3. إرسال الطلب (إلى الوسيط الآمن، وليس Google مباشرة)
+            try {
+                const response = await fetch(API_URL, { // API_URL هو الآن رابط الوسيط
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody) // نرسل الـ prompt للوسيط
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server function error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                if (data && data.candidates && data.candidates[0].content) {
+                    const explanation = data.candidates[0].content.parts[0].text;
+                    aiExplanationDiv.innerHTML = explanation.replace(/\n/g, '<br>');
+                } else {
+                    // هذا قد يحدث إذا أرجع جوجل خطأ (مثل "SAFETY" أو غيره)
+                    console.error("Invalid response structure from server:", data);
+                    throw new Error("Invalid response structure from server.");
+                }
+
+            } catch (error) {
+                console.error("Error fetching AI explanation:", error);
+                aiExplanationDiv.innerHTML = translations[lang]["quiz.aiError"];
+            }
+        }
+        
+        // ⭐️ دالة جلب النصائح (كانت صحيحة ولم تتغير)
+        async function fetchAITips(userScore, totalQuestions, lang = 'ar') {
+            const tipsContainer = document.getElementById('ai-tips-container');
+            const tipsExplanationDiv = document.getElementById('ai-tips-explanation');
+
+            tipsContainer.classList.remove('hidden');
+            tipsExplanationDiv.innerHTML = translations[lang]["results.aiTipsLoading"];
+            tipsExplanationDiv.style.textAlign = lang === 'ar' ? 'right' : 'left';
+            
+            const languageInstruction = lang === 'ar' 
+                ? "استخدم اللغة العربية الفصحى الواضحة والمبسطة في نقاط."
+                : "Use simple and clear English in bullet points.";
+
+            const prompt = `
+                You are an expert cybersecurity tutor.
+                A student just completed your 20-question cybersecurity quiz.
+                Their final score was: ${userScore} out of ${totalQuestions}.
+
+                Your task is to provide personalized, encouraging feedback and 3-4 actionable tips to help them improve.
+                
+                1.  Start with an encouraging comment based on their score (e.g., "Great job!", "Good start!", "You're learning!").
+                2.  Based on their score (low, medium, or high), generate 3-4 specific, actionable tips.
+                3.  If the score is low (e.g., < 10), focus on fundamentals (phishing, strong passwords, suspicious links).
+                4.  If the score is medium (e.g., 10-16), focus on more intermediate topics (2FA, malware types, social engineering awareness, secure networks).
+                5.  If the score is high (e.g., > 16), congratulate them and give advanced tips (incident response basics, encryption, principle of least privilege).
+                6.  Keep the tone positive and helpful.
+                7.  Format the tips as a bulleted or numbered list.
+                8.  ${languageInstruction}
+            `;
+
+            const requestBody = {
+                contents: [ { parts: [ { text: prompt } ] } ],
+                generationConfig: {
+                    temperature: 0.8, 
+                    maxOutputTokens: 500,
+                }
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server function error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data && data.candidates && data.candidates[0].content) {
+                    const explanation = data.candidates[0].content.parts[0].text;
+                    tipsExplanationDiv.innerHTML = explanation.replace(/\n/g, '<br>');
+                } else {
+                    console.error("Invalid response structure from server:", data);
+                    throw new Error("Invalid response structure from server.");
+                }
+
+            } catch (error) {
+                console.error("Error fetching AI tips:", error);
+                tipsExplanationDiv.innerHTML = translations[lang]["results.aiTipsError"];
+            }
+        }
+
+        // ⭐️ كود تشغيل الاختبار (لم يتغير)
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentQuestionIndex = 0;
+            let score = 0;
+            let currentLang = 'en';
+            let shuffledQuestions = [];
+
+            const landingPage = document.getElementById('landing-page');
+            const quizPage = document.getElementById('quiz-page');
+            const resultsPage = document.getElementById('results-page');
+            const startQuizBtn = document.getElementById('start-quiz-btn'); 
+            const nextBtn = document.getElementById('next-btn');
+            const retryBtn = document.getElementById('retry-btn');
+            const homeBtn = document.getElementById('home-btn');
+            const langToggleButtons = document.querySelectorAll('.lang-btn');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const feedbackEl = document.getElementById('feedback');
+            const progressEl = document.getElementById('quiz-progress');
+            const currentQuestionEl = document.getElementById('current-question');
+            const totalQuestionsEl = document.getElementById('total-questions');
+            const finalScoreEl = document.getElementById('final-score');
+            const scoreMessageEl = document.getElementById('score-message');
+            const aiExplainBtn = document.getElementById('ai-explain-btn');
+            const aiFeedbackDiv = document.getElementById('ai-feedback');
+            
+            function setLanguage(lang) {
+                currentLang = lang;
+                document.documentElement.lang = lang;
+                document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+                langToggleButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.dataset.i18n;
+                    if (translations[lang] && translations[lang][key]) {
+                        el.textContent = translations[lang][key];
+                    }
+                });
+            }
+
+            function shuffleArray(array) {
+                let m = array.length, t, i;
+                while (m) {
+                    i = Math.floor(Math.random() * m--);
+                    t = array[m];
+                    array[m] = array[i];
+                    array[i] = t;
+                }
+                return array;
+            }
+
+            function startQuiz() {
+                currentQuestionIndex = 0;
+                score = 0;
+                shuffledQuestions = shuffleArray([...quizData[currentLang]]);
+                landingPage.classList.add('hidden');
+                resultsPage.classList.add('hidden');
+                quizPage.classList.remove('hidden');
+                totalQuestionsEl.textContent = shuffledQuestions.length;
+                showQuestion();
+            }
+
+            function showQuestion() {
+                feedbackEl.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+                aiExplainBtn.classList.add('hidden');
+                aiFeedbackDiv.classList.add('hidden');
+                optionsContainer.innerHTML = '';
+                const questionData = shuffledQuestions[currentQuestionIndex];
+                questionText.textContent = questionData.question;
+                questionData.options.forEach((option, index) => {
+                    const optionEl = document.createElement('div');
+                    optionEl.classList.add('option');
+                    optionEl.textContent = option;
+                    optionEl.dataset.index = index;
+                    optionEl.addEventListener('click', () => selectOption(optionEl, index, questionData.correct));
+                    optionsContainer.appendChild(optionEl);
+                });
+                progressEl.style.width = `${((currentQuestionIndex + 1) / shuffledQuestions.length) * 100}%`;
+                currentQuestionEl.textContent = currentQuestionIndex + 1;
+            }
+
+            function selectOption(selectedEl, selectedIndex, correctIndex) {
+                optionsContainer.querySelectorAll('.option').forEach(opt => {
+                    opt.style.pointerEvents = 'none';
+                });
+                const isCorrect = (selectedIndex === correctIndex);
+                if (isCorrect) {
+                    score++;
+                    selectedEl.classList.add('correct');
+                    feedbackEl.textContent = translations[currentLang]["feedback.correct"];
+                    feedbackEl.classList.add('correct');
+                    feedbackEl.classList.remove('incorrect');
+                } else {
+                    selectedEl.classList.add('incorrect');
+                    optionsContainer.querySelector(`[data-index="${correctIndex}"]`).classList.add('correct');
+                    feedbackEl.textContent = translations[currentLang]["feedback.incorrect"];
+                    feedbackEl.classList.add('incorrect');
+                    feedbackEl.classList.remove('correct');
+                }
+                feedbackEl.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+                aiExplainBtn.classList.remove('hidden');
+                aiExplainBtn.replaceWith(aiExplainBtn.cloneNode(true));
+                const newAiExplainBtn = document.getElementById('ai-explain-btn');
+                newAiExplainBtn.classList.remove('hidden');
+                newAiExplainBtn.addEventListener('click', () => {
+                    const currentQuestion = shuffledQuestions[currentQuestionIndex];
+                    const correctAnswerText = currentQuestion.options[currentQuestion.correct];
+                    const userAnswerText = currentQuestion.options[selectedIndex];
+                    fetchAIExplanation(
+                        currentQuestion.question,
+                        currentQuestion.options,
+                        correctAnswerText,
+                        userAnswerText,
+                        currentLang
+                    );
+                    newAiExplainBtn.classList.add('hidden');
+                }, { once: true });
+            }
+
+            function nextQuestion() {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < shuffledQuestions.length) {
+                    showQuestion();
+                } else {
+                    showResults();
+                }
+            }
+
+            function showResults() {
+                quizPage.classList.add('hidden');
+                resultsPage.classList.remove('hidden');
+
+                finalScoreEl.textContent = `${score}/${shuffledQuestions.length}`;
+                
+                const scorePercent = (score / shuffledQuestions.length);
+                let messageKey = "score.message0";
+                if (scorePercent >= 0.9) {
+                    messageKey = "score.message3";
+                } else if (scorePercent >= 0.7) {
+                    messageKey = "score.message2";
+                } else if (scorePercent >= 0.4) {
+                    messageKey = "score.message1";
+                }
+                scoreMessageEl.textContent = translations[currentLang][messageKey];
+
+                const aiTipsBtn = document.getElementById('ai-tips-btn');
+                const aiTipsContainer = document.getElementById('ai-tips-container');
+                
+                aiTipsBtn.classList.remove('hidden');
+                aiTipsContainer.classList.add('hidden');
+                
+                aiTipsBtn.replaceWith(aiTipsBtn.cloneNode(true));
+                const newAiTipsBtn = document.getElementById('ai-tips-btn');
+                
+                newAiTipsBtn.textContent = translations[currentLang]["results.aiTips"];
+
+                newAiTipsBtn.addEventListener('click', () => {
+                    fetchAITips(score, shuffledQuestions.length, currentLang);
+                    newAiTipsBtn.classList.add('hidden');
+                }, { once: true });
+
+                localStorage.setItem('cybrshield_lastScore', `${score}/${shuffledQuestions.length}`);
+                updateLastScore();
+            }
+
+            function goHome() {
+                resultsPage.classList.add('hidden');
+                landingPage.classList.remove('hidden');
+            }
+
+            function updateLastScore() {
+                const lastScore = localStorage.getItem('cybrshield_lastScore');
+                if (lastScore) {
+                    document.getElementById('last-score').textContent = lastScore;
+                }
+            }
+
+            startQuizBtn.addEventListener('click', startQuiz); 
+            nextBtn.addEventListener('click', nextQuestion);
+            retryBtn.addEventListener('click', startQuiz);
+            homeBtn.addEventListener('click', goHome);
+            langToggleButtons.forEach(btn => {
+                btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+            });
+
+            setLanguage(currentLang);
+            updateLastScore();
+        });
+    </script>
+</body>
+</html>

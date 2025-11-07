@@ -1,0 +1,7 @@
+[build]
+  # هذا يخبر Netlify أن ملفات موقعك (index.html) موجودة في المجلد الحالي
+  publish = "." 
+
+[functions]
+  # هذا يخبر Netlify أن "الوسيط" (gemini.js) موجود في هذا المجلد
+  directory = "netlify/functions/"
