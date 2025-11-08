@@ -15,7 +15,8 @@ export async function handler(event, context) {
     }
 
     // 2. الرابط الصحيح لـ Google API (مع 1.0)
-const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+//const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+    const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${API_KEY}`;
     // 3. جلب الـ "prompt" من index.html
     const clientRequestBody = JSON.parse(event.body);
 
