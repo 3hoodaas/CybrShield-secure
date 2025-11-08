@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS (لم يتغير) */
+        /* CSS الخاص بك بالكامل - لم يتغير */
         :root {
             --primary: #1a365d;
             --primary-light: #2d4a8a;
@@ -25,71 +25,448 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --transition: all 0.3s ease;
         }
-        [dir="rtl"] { --font-primary: 'Tajawal', 'Segoe UI', Tahoma, sans-serif; }
-        [dir="ltr"] { --font-primary: 'Inter', 'Segoe UI', Tahoma, sans-serif; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-primary); background-color: var(--background); color: var(--text-primary); line-height: 1.6; transition: var(--transition); }
-        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; margin-bottom: 30px; }
-        .logo { display: flex; align-items: center; gap: 12px; }
-        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
-        .logo-text { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .language-toggle { display: flex; gap: 8px; background: var(--surface); padding: 6px; border-radius: var(--radius); box-shadow: var(--shadow); }
-        .lang-btn { padding: 8px 16px; border: none; background: transparent; border-radius: 6px; cursor: pointer; font-weight: 500; transition: var(--transition); }
-        .lang-btn.active { background: var(--primary); color: white; }
-        .card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 30px; margin-bottom: 20px; transition: var(--transition); }
-        h1, h2, h3 { margin-bottom: 16px; color: var(--primary); }
-        p { margin-bottom: 16px; color: var(--text-secondary); }
-        .btn { display: inline-block; padding: 12px 24px; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-weight: 600; cursor: pointer; transition: var(--transition); text-decoration: none; text-align: center; }
-        .btn:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); }
-        .btn-accent { background: var(--accent); }
-        .btn-accent:hover { background: var(--secondary); }
-        .btn-large { padding: 16px 32px; font-size: 1.1rem; }
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 30px 0; }
-        .feature { text-align: center; padding: 20px; }
-        .feature-icon { width: 60px; height: 60px; margin: 0 auto 15px; background: var(--background); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--accent); }
-        .stats { display: flex; justify-content: space-around; margin: 30px 0; text-align: center; }
-        .stat { padding: 15px; }
-        .stat-number { display: block; font-size: 2rem; font-weight: 700; color: var(--accent); }
-        .stat-label { font-size: 0.9rem; color: var(--text-secondary); }
-        .hidden { display: none !important; }
-        .quiz-container { position: relative; }
-        .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; margin-bottom: 20px; overflow: hidden; }
-        .progress { height: 100%; background: linear-gradient(90deg, var(--accent), var(--secondary)); border-radius: 4px; transition: width 0.5s ease; }
-        .question-counter { text-align: center; margin-bottom: 10px; color: var(--text-secondary); font-weight: 500; }
-        .timer-container { display: flex; justify-content: center; margin: 20px 0; }
-        .timer { width: 60px; height: 60px; border-radius: 50%; background: var(--surface); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; color: var(--primary); box-shadow: var(--shadow); position: relative; }
-        .timer-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: conic-gradient(var(--accent) 0%, #e2e8f0 0%); -webkit-mask: radial-gradient(transparent 55%, black 56%); mask: radial-gradient(transparent 55%, black 56%); }
-        .question-text { font-size: 1.3rem; font-weight: 600; margin-bottom: 25px; text-align: center; }
-        .options-container { display: grid; gap: 12px; margin-bottom: 20px; }
-        .option { padding: 16px 20px; background: var(--background); border: 2px solid transparent; border-radius: var(--radius); cursor: pointer; transition: var(--transition); font-weight: 500; }
-        .option:hover { background: #e2e8f0; transform: translateY(-2px); }
-        .option.selected { border-color: var(--accent); background: rgba(6, 182, 212, 0.1); }
-        .option.correct { border-color: var(--success); background: rgba(16, 185, 129, 0.1); }
-        .option.incorrect { border-color: var(--error); background: rgba(239, 68, 68, 0.1); }
-        .feedback { text-align: center; padding: 20px; border-radius: var(--radius); margin: 20px 0; font-weight: 600; animation: fadeIn 0.5s ease; }
-        .feedback.correct { background: rgba(16, 185, 129, 0.1); color: var(--success); }
-        .feedback.incorrect { background: rgba(239, 68, 68, 0.1); color: var(--error); }
-        .next-btn { width: 100%; margin-top: 20px; }
-        .results-container { text-align: center; }
-        .score-display { font-size: 4rem; font-weight: 700; color: var(--accent); margin: 20px 0; }
-        .score-message { font-size: 1.3rem; margin-bottom: 30px; }
-        .share-result { margin: 30px 0; padding: 20px; background: var(--background); border-radius: var(--radius); }
-        .share-btn { margin-top: 15px; }
-        .settings-panel { margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
-        .setting-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .toggle-switch { position: relative; display: inline-block; width: 50px; height: 24px; }
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--accent); }
-        input:checked + .slider:before { transform: translateX(26px); }
-        select { padding: 8px 12px; border-radius: var(--radius); border: 1px solid #cbd5e1; background: var(--surface); font-family: inherit; }
-        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        .pulse { animation: pulse 0.5s ease; }
-        @media (max-width: 768px) { .container { padding: 15px; } .card { padding: 20px; } .features { grid-template-columns: 1fr; } .stats { flex-direction: column; } .question-text { font-size: 1.1rem; } }
+
+        [dir="rtl"] {
+            --font-primary: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        [dir="ltr"] {
+            --font-primary: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .language-toggle {
+            display: flex;
+            gap: 8px;
+            background: var(--surface);
+            padding: 6px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background: var(--secondary);
+        }
+
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 1.1rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            background: var(--background);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 15px;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .question-counter {
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .timer {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .timer-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent) 0%, #e2e8f0 0%);
+            -webkit-mask: radial-gradient(transparent 55%, black 56%);
+            mask: radial-gradient(transparent 55%, black 56%);
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .options-container {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            padding: 16px 20px;
+            background: var(--background);
+            border: 2px solid transparent;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .option:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .option.selected {
+            border-color: var(--accent);
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        .option.correct {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .option.incorrect {
+            border-color: var(--error);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .feedback {
+            text-align: center;
+            padding: 20px;
+            border-radius: var(--radius);
+            margin: 20px 0;
+            font-weight: 600;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+        }
+
+        .next-btn {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .results-container {
+            text-align: center;
+        }
+
+        .score-display {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 20px 0;
+        }
+
+        .score-message {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+        }
+
+        .share-result {
+            margin: 30px 0;
+            padding: 20px;
+            background: var(--background);
+            border-radius: var(--radius);
+        }
+
+        .share-btn {
+            margin-top: 15px;
+        }
+
+        .settings-panel {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        select {
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            border: 1px solid #cbd5e1;
+            background: var(--surface);
+            font-family: inherit;
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .card { padding: 20px; }
+            .features { grid-template-columns: 1fr; }
+            .stats { flex-direction: column; }
+            .question-text { font-size: 1.1rem; }
+        }
     </style>
 </head>
 <body>
@@ -119,7 +496,7 @@
                             <p data-i18n="landing.feature1desc">Comprehensive coverage of cybersecurity fundamentals</p>
                         </div>
                         <div class="feature">
-                            <div class="feature-icon">⏱️</div>
+                            <div class="feature-icon">⏱</div>
                             <h3 data-i18n="landing.feature2">Timed Challenge</h3>
                             <p data-i18n="landing.feature2desc">Test your knowledge under pressure with per-question timer</p>
                         </div>
@@ -188,7 +565,6 @@
                             جاري تحضير الشرح...
                         </div>
                     </div>
-
                     <button class="btn next-btn hidden" id="next-btn" data-i18n="quiz.next">Next Question</button>
                 </div>
 
@@ -215,7 +591,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="share-result">
                         <p data-i18n="results.share">Share your result:</p>
                         <button class="btn share-btn" id="share-btn" data-i18n="results.copyResult">Copy Result to Clipboard</button>
@@ -233,10 +608,10 @@
     <canvas id="confetti-canvas"></canvas>
 
     <script>
-        // ⭐️ الرابط الآمن (لم يتغير)
-        const API_URL = `/.netlify/functions/gemini`;
+        // ⭐ الرابط الآمن (لم يتغير)
+        const API_URL = /.netlify/functions/gemini;
 
-        // ⭐️ بيانات الاختبار (لم تتغير)
+        // ⭐ بيانات الاختبار (لم تتغير)
         const quizData = {
             en: [
                 { question: "What does the 'C' in CIA triad stand for in cybersecurity?", options: ["Confidentiality", "Compliance", "Control", "Cyber"], correct: 0 },
@@ -284,7 +659,7 @@
             ]
         };
 
-        // ⭐️ نصوص الترجمة (لم تتغير)
+        // ⭐ نصوص الترجمة (لم تتغير)
         const translations = {
             en: {
                 "landing.title": "Test Your Cybersecurity Knowledge",
@@ -358,7 +733,7 @@
             }
         };
 
-        // ⭐️⭐️⭐️ هذا هو الكود الصحيح والمعدل (الخطأ كان هنا) ⭐️⭐️⭐️
+        // ⭐⭐⭐ هذا هو الكود الصحيح والمعدل (الخطأ كان هنا) ⭐⭐⭐
         async function fetchAIExplanation(question, options, correctAnswer, userAnswer, lang = 'ar') {
             const aiExplanationDiv = document.getElementById('ai-explanation');
             const aiFeedbackDiv = document.getElementById('ai-feedback');
@@ -371,28 +746,28 @@
                 ? "استخدم اللغة العربية الفصحى الواضحة والمبسطة."
                 : "Use simple and clear English.";
 
-            // ⭐️⭐️⭐️ 1. تم نقل الـ prompt إلى هنا (قبل requestBody) ⭐️⭐️⭐️
+            // ⭐⭐⭐ 1. تم نقل الـ prompt إلى هنا (قبل requestBody) ⭐⭐⭐
             const prompt = `
                 You are an expert cybersecurity tutor.
                 A beginner student just answered a quiz question.
 
                 Question: "${question}"
                 Options: 
-                ${options.map((opt, i) => `- ${opt}`).join('\n')}
+                ${options.map((opt, i) => - ${opt}).join('\n')}
 
                 Their Answer: "${userAnswer}"
                 The Correct Answer: "${correctAnswer}"
 
                 Your task is to provide a brief, helpful explanation (in ${lang === 'ar' ? 'Arabic' : 'English'}).
                 1.  Start by confirming the correct answer.
-                2.  Explain *why* "${correctAnswer}" is the correct choice.
+                2.  Explain why "${correctAnswer}" is the correct choice.
                 3.  If their answer was wrong, briefly explain why "${userAnswer}" is incorrect.
                 4.  Keep the tone simple, encouraging, and suitable for a beginner.
                 5.  ${languageInstruction}
                 6.  Do not start with "Certainly!" or "Here is the explanation:". Just start the explanation directly.
             `;
 
-            // ⭐️⭐️⭐️ 2. الآن requestBody يمكنه استخدام الـ prompt بشكل صحيح ⭐️⭐️⭐️
+            // ⭐⭐⭐ 2. الآن requestBody يمكنه استخدام الـ prompt بشكل صحيح ⭐⭐⭐
             const requestBody = {
                 contents: [ { parts: [ { text: prompt } ] } ],
                 generationConfig: {
@@ -412,7 +787,7 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Server function error! status: ${response.status}`);
+                    throw new Error(Server function error! status: ${response.status});
                 }
                 const data = await response.json();
 
@@ -431,7 +806,7 @@
             }
         }
 
-        // ⭐️ دالة جلب النصائح (كانت صحيحة ولم تتغير)
+        // ⭐ دالة جلب النصائح (كانت صحيحة ولم تتغير)
         async function fetchAITips(userScore, totalQuestions, lang = 'ar') {
             const tipsContainer = document.getElementById('ai-tips-container');
             const tipsExplanationDiv = document.getElementById('ai-tips-explanation');
@@ -479,7 +854,7 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Server function error! status: ${response.status}`);
+                    throw new Error(Server function error! status: ${response.status});
                 }
 
                 const data = await response.json();
@@ -498,7 +873,7 @@
             }
         }
 
-        // ⭐️ كود تشغيل الاختبار (لم يتغير)
+        // ⭐ كود تشغيل الاختبار (لم يتغير)
         document.addEventListener('DOMContentLoaded', () => {
             let currentQuestionIndex = 0;
             let score = 0;
@@ -577,7 +952,7 @@
                     optionEl.addEventListener('click', () => selectOption(optionEl, index, questionData.correct));
                     optionsContainer.appendChild(optionEl);
                 });
-                progressEl.style.width = `${((currentQuestionIndex + 1) / shuffledQuestions.length) * 100}%`;
+                progressEl.style.width = ${((currentQuestionIndex + 1) / shuffledQuestions.length) * 100}%;
                 currentQuestionEl.textContent = currentQuestionIndex + 1;
             }
 
@@ -594,7 +969,7 @@
                     feedbackEl.classList.remove('incorrect');
                 } else {
                     selectedEl.classList.add('incorrect');
-                    optionsContainer.querySelector(`[data-index="${correctIndex}"]`).classList.add('correct');
+                    optionsContainer.querySelector([data-index="${correctIndex}"]).classList.add('correct');
                     feedbackEl.textContent = translations[currentLang]["feedback.incorrect"];
                     feedbackEl.classList.add('incorrect');
                     feedbackEl.classList.remove('correct');
@@ -633,7 +1008,7 @@
                 quizPage.classList.add('hidden');
                 resultsPage.classList.remove('hidden');
 
-                finalScoreEl.textContent = `${score}/${shuffledQuestions.length}`;
+                finalScoreEl.textContent = ${score}/${shuffledQuestions.length};
 
                 const scorePercent = (score / shuffledQuestions.length);
                 let messageKey = "score.message0";
@@ -662,7 +1037,7 @@
                     newAiTipsBtn.classList.add('hidden');
                 }, { once: true });
 
-                localStorage.setItem('cybrshield_lastScore', `${score}/${shuffledQuestions.length}`);
+                localStorage.setItem('cybrshield_lastScore', ${score}/${shuffledQuestions.length});
                 updateLastScore();
             }
 
