@@ -77,6 +77,12 @@ const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemi
  * الحل: استخدام النموذج المستقر (gemini-1.0-pro) مع (v1)
  */
 
+/*
+ * هذا هو ملف "الوسيط" الآمن - netlify/functions/gemini.js
+ * النسخة النهائية - (المشكلة كانت الاسم غير كامل)
+ * الحل: استخدام النموذج المستقر (gemini-1.0-pro) مع (v1)
+ */
+
 export async function handler(event, context) {
     // 1. جلب المفتاح السري بأمان من Netlify
     const API_KEY = process.env.GEMINI_API_KEY;
@@ -124,7 +130,7 @@ export async function handler(event, context) {
         console.error("Error in Netlify function:", error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: error.message })
+            body: JSON.stringify({ error: message })
         };
     }
 }
