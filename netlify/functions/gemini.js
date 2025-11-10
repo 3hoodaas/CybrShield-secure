@@ -59,6 +59,12 @@ const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemi
  * النسخة النهائية والصحيحة 100%
  */
 
+/*
+ * هذا هو ملف "الوسيط" الآمن - netlify/functions/gemini.js
+ * النسخة النهائية والصحيحة 100%
+ * (المشكلة كانت: gemini-1.5-flash يتطلب v1beta)
+ */
+
 export async function handler(event, context) {
     // 1. جلب المفتاح السري بأمان من Netlify
     const API_KEY = process.env.GEMINI_API_KEY;
@@ -70,9 +76,9 @@ export async function handler(event, context) {
         };
     }
 
-    // 2. الرابط الصحيح والنهائي لـ Google API (v1 و gemini-1.5-flash)
-    // هذا هو السطر الذي كان يسبب خطأ 404
-    const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+    // 2. الرابط الصحيح والنهائي لـ Google API
+    // (gemini-1.5-flash يجب أن يستخدم v1beta)
+    const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
     // 3. جلب الـ "prompt" من index.html
     const clientRequestBody = JSON.parse(event.body);
@@ -92,6 +98,7 @@ export async function handler(event, context) {
         // إذا كان الرد ليس OK (مثل 403 للمفتاح، أو 400 للطلب)
         if (!response.ok) {
             console.error("Google API Error Response:", data);
+            // هذا هو السجل الذي ساعدنا
             throw new Error(`Google API error! status: ${response.status}. Response: ${JSON.stringify(data.error)}`);
         }
 
