@@ -71,6 +71,12 @@ const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemi
  * الحل: استخدام النموذج المستقر gemini-pro مع v1
  */
 
+/*
+ * هذا هو ملف "الوسيط" الآمن - netlify/functions/gemini.js
+ * النسخة النهائية - (المشكلة كانت الاسم غير كامل)
+ * الحل: استخدام النموذج المستقر (gemini-1.0-pro) مع (v1)
+ */
+
 export async function handler(event, context) {
     // 1. جلب المفتاح السري بأمان من Netlify
     const API_KEY = process.env.GEMINI_API_KEY;
@@ -83,8 +89,8 @@ export async function handler(event, context) {
     }
 
     // 2. الرابط الصحيح والنهائي لـ Google API
-    // (استخدام النموذج المستقر gemini-pro مع v1)
-    const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
+    // (استخدام النموذج المستقر gemini-1.0-pro مع v1)
+    const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.0-pro:generateContent?key=${API_KEY}`;
 
     // 3. جلب الـ "prompt" من index.html
     const clientRequestBody = JSON.parse(event.body);
@@ -104,6 +110,7 @@ export async function handler(event, context) {
         // إذا كان الرد ليس OK
         if (!response.ok) {
             console.error("Google API Error Response:", data);
+            // هذا هو السجل الذي ساعدنا
             throw new Error(`Google API error! status: ${response.status}. Response: ${JSON.stringify(data.error)}`);
         }
 
