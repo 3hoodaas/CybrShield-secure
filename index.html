@@ -496,7 +496,7 @@
                             <p data-i18n="landing.feature1desc">Comprehensive coverage of cybersecurity fundamentals</p>
                         </div>
                         <div class="feature">
-                            <div class="feature-icon">⏱</div>
+                            <div class="feature-icon">⏱️</div>
                             <h3 data-i18n="landing.feature2">Timed Challenge</h3>
                             <p data-i18n="landing.feature2desc">Test your knowledge under pressure with per-question timer</p>
                         </div>
@@ -608,10 +608,10 @@
     <canvas id="confetti-canvas"></canvas>
 
     <script>
-        // ⭐ الرابط الآمن (لم يتغير)
-        const API_URL = /.netlify/functions/gemini;
+        // ⭐️ الرابط الآمن (لم يتغير)
+        const API_URL = `/.netlify/functions/gemini`;
 
-        // ⭐ بيانات الاختبار (لم تتغير)
+        // ⭐️ بيانات الاختبار (لم تتغير)
         const quizData = {
             en: [
                 { question: "What does the 'C' in CIA triad stand for in cybersecurity?", options: ["Confidentiality", "Compliance", "Control", "Cyber"], correct: 0 },
@@ -659,7 +659,7 @@
             ]
         };
 
-        // ⭐ نصوص الترجمة (لم تتغير)
+        // ⭐️ نصوص الترجمة (لم تتغير)
         const translations = {
             en: {
                 "landing.title": "Test Your Cybersecurity Knowledge",
@@ -733,7 +733,7 @@
             }
         };
 
-        // ⭐⭐⭐ هذا هو الكود الصحيح والمعدل ⭐⭐⭐
+        // ⭐️⭐️⭐️ هذا هو الكود الصحيح والمعدل ⭐️⭐️⭐️
         async function fetchAIExplanation(question, options, correctAnswer, userAnswer, lang = 'ar') {
             const aiExplanationDiv = document.getElementById('ai-explanation');
             const aiFeedbackDiv = document.getElementById('ai-feedback');
@@ -746,21 +746,21 @@
                 ? "استخدم اللغة العربية الفصحى الواضحة والمبسطة."
                 : "Use simple and clear English.";
 
-            // ⭐⭐⭐ 1. تم نقل الـ prompt إلى هنا (قبل requestBody) ⭐⭐⭐
+            // ⭐️⭐️⭐️ 1. تم نقل الـ prompt إلى هنا (قبل requestBody) ⭐️⭐️⭐️
             const prompt = `
                 You are an expert cybersecurity tutor.
                 A beginner student just answered a quiz question.
 
                 Question: "${question}"
                 Options: 
-                ${options.map((opt, i) => - ${opt}).join('\n')}
+                ${options.map((opt, i) => `- ${opt}`).join('\n')}
 
                 Their Answer: "${userAnswer}"
                 The Correct Answer: "${correctAnswer}"
 
                 Your task is to provide a brief, helpful explanation (in ${lang === 'ar' ? 'Arabic' : 'English'}).
                 1.  Start by confirming the correct answer.
-                2.  Explain why "${correctAnswer}" is the correct choice.
+                2.  Explain *why* "${correctAnswer}" is the correct choice.
                 3.  If their answer was wrong, briefly explain why "${userAnswer}" is incorrect.
                 4.  Keep the tone simple, encouraging, and suitable for a beginner.
                 5.  ${languageInstruction}
@@ -768,20 +768,20 @@
             `;
 
            // ✅ هذا هو الكود الجديد (الصحيح)
-            const requestBody = {
-                contents: [ { parts: [ { text: prompt } ] } ],
-                generationConfig: {
-                    temperature: 0.8, 
-                    maxOutputTokens: 1024, // ⭐ تم زيادة الحد
-                },
-                // ⭐⭐ الإضافة الجديدة هنا ⭐⭐
-                safetySettings: [
-                    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-                    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-                    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-                    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
-                ]
-            };
+            const requestBody = {
+                contents: [ { parts: [ { text: prompt } ] } ],
+                generationConfig: {
+                    temperature: 0.8, 
+                    maxOutputTokens: 1024, // ⭐️ تم زيادة الحد
+                },
+                // ⭐️⭐️ الإضافة الجديدة هنا ⭐️⭐️
+                safetySettings: [
+                    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+                ]
+            };
             
 
             // 3. إرسال الطلب (إلى الوسيط الآمن، وليس Google مباشرة)
@@ -795,7 +795,7 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(Server function error! status: ${response.status});
+                    throw new Error(`Server function error! status: ${response.status}`);
                 }
                 const data = await response.json();
                 
@@ -814,7 +814,7 @@
             }
         }
         
-        // ⭐ دالة جلب النصائح (كانت صحيحة ولم تتغير)
+        // ⭐️ دالة جلب النصائح (كانت صحيحة ولم تتغير)
         async function fetchAITips(userScore, totalQuestions, lang = 'ar') {
             const tipsContainer = document.getElementById('ai-tips-container');
             const tipsExplanationDiv = document.getElementById('ai-tips-explanation');
@@ -862,7 +862,7 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(Server function error! status: ${response.status});
+                    throw new Error(`Server function error! status: ${response.status}`);
                 }
 
                 const data = await response.json();
@@ -881,7 +881,7 @@
             }
         }
 
-        // ⭐ كود تشغيل الاختبار (لم يتغير)
+        // ⭐️ كود تشغيل الاختبار (لم يتغير)
         document.addEventListener('DOMContentLoaded', () => {
             let currentQuestionIndex = 0;
             let score = 0;
@@ -960,7 +960,7 @@
                     optionEl.addEventListener('click', () => selectOption(optionEl, index, questionData.correct));
                     optionsContainer.appendChild(optionEl);
                 });
-                progressEl.style.width = ${((currentQuestionIndex + 1) / shuffledQuestions.length) * 100}%;
+                progressEl.style.width = `${((currentQuestionIndex + 1) / shuffledQuestions.length) * 100}%`;
                 currentQuestionEl.textContent = currentQuestionIndex + 1;
             }
 
@@ -977,7 +977,7 @@
                     feedbackEl.classList.remove('incorrect');
                 } else {
                     selectedEl.classList.add('incorrect');
-                    optionsContainer.querySelector([data-index="${correctIndex}"]).classList.add('correct');
+                    optionsContainer.querySelector(`[data-index="${correctIndex}"]`).classList.add('correct');
                     feedbackEl.textContent = translations[currentLang]["feedback.incorrect"];
                     feedbackEl.classList.add('incorrect');
                     feedbackEl.classList.remove('correct');
@@ -1016,7 +1016,7 @@
                 quizPage.classList.add('hidden');
                 resultsPage.classList.remove('hidden');
 
-                finalScoreEl.textContent = ${score}/${shuffledQuestions.length};
+                finalScoreEl.textContent = `${score}/${shuffledQuestions.length}`;
                 
                 const scorePercent = (score / shuffledQuestions.length);
                 let messageKey = "score.message0";
@@ -1045,7 +1045,7 @@
                     newAiTipsBtn.classList.add('hidden');
                 }, { once: true });
 
-                localStorage.setItem('cybrshield_lastScore', ${score}/${shuffledQuestions.length});
+                localStorage.setItem('cybrshield_lastScore', `${score}/${shuffledQuestions.length}`);
                 updateLastScore();
             }
 
@@ -1075,4 +1075,5 @@
     </script>
 </body>
 </html>
+
 
