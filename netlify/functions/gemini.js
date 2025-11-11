@@ -90,6 +90,13 @@ const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemi
  * المتاحة لمفتاحك.
  */
 
+/*
+ * هذا هو ملف "الوسيط" الآمن - netlify/functions/gemini.js
+ * -----------------------------------------------------------
+ * النسخة الإنتاجية النهائية
+ * السجل التشخيصي أثبت أننا نملك "models/gemini-2.5-flash"
+ */
+
 export async function handler(event, context) {
     // 1. جلب المفتاح السري بأمان من Netlify
     const API_KEY = process.env.GEMINI_API_KEY;
@@ -98,46 +105,41 @@ export async function handler(event, context) {
         return { statusCode: 500, body: JSON.stringify({ error: "Missing API Key" }) };
     }
 
-    // 2. هذا هو الرابط "التشخيصي" لسرد النماذج
-    // نحن نستخدم "v1" لسرد النماذج المستقرة
-    const LIST_MODELS_URL = `https://generativelanguage.googleapis.com/v1/models?key=${API_KEY}`;
+    // 2. الرابط الصحيح والنهائي، بناءً على السجل التشخيصي
+    // النموذج: gemini-2.5-flash (من قائمتك)
+    // الإصدار: v1beta (لأن 2.5 حديث)
+    const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+    
+    // 3. جلب الـ "prompt" من index.html
+    const clientRequestBody = JSON.parse(event.body);
 
     try {
-        // 3. نحن نستخدم "GET" (لجلب قائمة) وليس "POST" (لإنشاء محتوى)
-        const response = await fetch(LIST_MODELS_URL, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+        // 4. إرسال الطلب إلى Google (POST لإنشاء محتوى)
+        const response = await fetch(GOOGLE_API_URL, {
+            method: 'POST', // نعود لاستخدام POST
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(clientRequestBody) // نعود لإرسال الطلب
         });
 
         const data = await response.json();
 
-        // 4. إذا فشل سرد النماذج (مثل خطأ 403)
+        // 5. إذا فشل الطلب
         if (!response.ok) {
-            console.error("Google API Error Response (ListModels):", data);
+            console.error("Google API Error Response (Production):", data);
             throw new Error(`Google API error! status: ${response.status}. Response: ${JSON.stringify(data.error)}`);
         }
 
-        /*
-         * 5. إذا نجحنا!!! 
-         * هذا يعني أننا سنرى قائمة النماذج في السجل.
-         * سنقوم بإرجاع خطأ للمستخدم (لأننا لم نقم بإنشاء شرح)،
-         * لكننا سنعرف ما هي النماذج المتاحة لك.
-         */
-        console.log("!!! SUCCESS: AVAILABLE MODELS FOUND !!!");
-        console.log(JSON.stringify(data)); // اطبع القائمة في السجل
-
-        // أعد رسالة خطأ للمستخدم (هذا متوقع)
+        // 6. !! النجاح الحقيقي !!
         return {
-            statusCode: 500,
-            body: JSON.stringify({ error: "DIAGNOSTIC_RUN_COMPLETE", available_models: data })
+            statusCode: 200,
+            body: JSON.stringify(data) // إرجاع الشرح للمستخدم
         };
 
     } catch (error) {
-        console.error("Error in Netlify function (Diagnostic):", error);
-        // 6. إصلاح الخطأ المرجعي (ReferenceError)
+        console.error("Error in Netlify function (Production):", error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: error.message }) // تم الإصلاح: error.message
+            body: JSON.stringify({ error: error.message })
         };
     }
 }
