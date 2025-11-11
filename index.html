@@ -767,14 +767,21 @@
                 6.  Do not start with "Certainly!" or "Here is the explanation:". Just start the explanation directly.
             `;
 
-            // ⭐️⭐️⭐️ 2. الآن requestBody يمكنه استخدام الـ prompt بشكل صحيح ⭐️⭐️⭐️
-            const requestBody = {
-                contents: [ { parts: [ { text: prompt } ] } ],
-                generationConfig: {
-                    temperature: 0.7,
-                    maxOutputTokens: 300, 
-                }
-            };
+            // ✅ هذا هو الكود الجديد (الصحيح)
+            const requestBody = {
+                contents: [ { parts: [ { text: prompt } ] } ],
+                generationConfig: {
+                    temperature: 0.7,
+                    maxOutputTokens: 300, 
+                },
+                // ⭐️⭐️ الإضافة الجديدة هنا ⭐️⭐️
+                safetySettings: [
+                    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+                ]
+            };
 
             // 3. إرسال الطلب (إلى الوسيط الآمن، وليس Google مباشرة)
             try {
@@ -1067,3 +1074,4 @@
     </script>
 </body>
 </html>
+
