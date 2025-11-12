@@ -695,6 +695,8 @@
                 "score.message1": "Not bad! You're learning.",
                 "score.message2": "Good job! You have a solid foundation.",
                 "score.message3": "Excellent! You're a CYBRSHIELD champion!",
+                "feedback.incorrect": "Incorrect!",
+                "feedback.timeup": "Time's Up!",
             },
             ar: {
                 "landing.title": "اختبر معرفتك بالأمن السيبراني",
@@ -730,6 +732,8 @@
                 "score.message1": "ليس سيئاً! أنت تتعلم.",
                 "score.message2": "عمل جيد! لديك أساس متين.",
                 "score.message3": "ممتاز! أنت بطل CYBRSHIELD!",
+                "feedback.incorrect": "إجابة خاطئة!",
+                "feedback.timeup": "نتهى الوقت!"
             }
         };
 
@@ -894,6 +898,7 @@
             let score = 0;
             let currentLang = 'en';
             let shuffledQuestions = [];
+            let timerInterval; // هذا سيحفظ معرّف المؤقت لنتمكن من إيقافه
 
             const landingPage = document.getElementById('landing-page');
             const quizPage = document.getElementById('quiz-page');
@@ -969,9 +974,11 @@
                 });
                 progressEl.style.width = `${((currentQuestionIndex + 1) / shuffledQuestions.length) * 100}%`;
                 currentQuestionEl.textContent = currentQuestionIndex + 1;
+                startTimer(); // ⭐️ أضف هذا السطر هنا
             }
 
             function selectOption(selectedEl, selectedIndex, correctIndex) {
+                clearInterval(timerInterval); // ⭐️ أضف هذا السطر
                 optionsContainer.querySelectorAll('.option').forEach(opt => {
                     opt.style.pointerEvents = 'none';
                 });
@@ -983,12 +990,18 @@
                     feedbackEl.classList.add('correct');
                     feedbackEl.classList.remove('incorrect');
                 } else {
-                    selectedEl.classList.add('incorrect');
-                    optionsContainer.querySelector(`[data-index="${correctIndex}"]`).classList.add('correct');
-                    feedbackEl.textContent = translations[currentLang]["feedback.incorrect"];
-                    feedbackEl.classList.add('incorrect');
-                    feedbackEl.classList.remove('correct');
-                }
+                    if (selectedEl) { // تحقق إذا كان المستخدم نقر على شيء
+                        selectedEl.classList.add('incorrect');
+                    }
+                    optionsContainer.querySelector(`[data-index="${correctIndex}"]`).classList.add('correct');
+                    
+                    // ⭐️ استخدم هذا السطر بدلاً من السطر القديم
+                    const feedbackKey = (selectedIndex === -1) ? "feedback.timeup" : "feedback.incorrect";
+                    feedbackEl.textContent = translations[currentLang][feedbackKey];
+                    
+                    feedbackEl.classList.add('incorrect'); // (لا تزال إجابة خاطئة، لذا اللون أحمر)
+                    feedbackEl.classList.remove('correct');
+                }
                 feedbackEl.classList.remove('hidden');
                 nextBtn.classList.remove('hidden');
                 aiExplainBtn.classList.remove('hidden');
@@ -1009,6 +1022,38 @@
                     newAiExplainBtn.classList.add('hidden');
                 }, { once: true });
             }
+            function startTimer() {
+                let timeLeft = 30; // مدة المؤقت بالثواني
+                const timerDisplay = document.getElementById('timer-display');
+                const timerRing = document.getElementById('timer-ring');
+                
+                // إعادة ضبط المؤقت عند بدء السؤال
+                timerDisplay.textContent = timeLeft;
+                timerRing.style.background = 'conic-gradient(var(--accent) 0%, #e2e8f0 0%)';
+                
+                // مسح أي مؤقت قديم (احتياطي)
+                clearInterval(timerInterval);
+
+                // تشغيل المؤقت الجديد كل ثانية
+                timerInterval = setInterval(() => {
+                    timeLeft--; // 1. تنقيص ثانية واحدة
+                    timerDisplay.textContent = timeLeft; // 2. تحديث الرقم
+                    
+                    // 3. تحديث الحلقة الدائرية
+                    const percent = (timeLeft / 30) * 100;
+                    timerRing.style.background = `conic-gradient(#e2e8f0 ${percent}%, var(--accent) ${percent}%)`;
+                    // هذا الكود يغير لون الحلقة بناءً على النسبة المئوية للوقت المتبقي
+                    
+
+                    // 4. التحقق إذا انتهى الوقت
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval); // إيقاف المؤقت
+                        // إجبار المستخدم على اختيار إجابة خاطئة (لأن الوقت انتهى)
+                        const correctIndex = shuffledQuestions[currentQuestionIndex].correct;
+                        selectOption(null, -1, correctIndex); // -1 يعني أنه لم يختر شيء (إجابة خاطئة)
+                    }
+                }, 1000); // 1000 ميللي ثانية = 1 ثانية
+            }
 
             function nextQuestion() {
                 currentQuestionIndex++;
@@ -1082,4 +1127,5 @@
     </script>
 </body>
 </html>
+
 
