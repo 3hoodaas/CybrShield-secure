@@ -848,10 +848,8 @@
                 contents: [ { parts: [ { text: prompt } ] } ],
                 generationConfig: {
                     temperature: 0.8, 
-                    maxOutputTokens: 1024, // ✅ قم بزيادتها إلى 1024
-                }
-                // ... (باقي الإعدادات مثل safetySettings) ...
-            };
+                    maxOutputTokens: 500,
+                },
                 // ⭐️⭐️ الإضافة الجديدة هنا ⭐️⭐️
                 safetySettings: [
                     { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
@@ -1084,7 +1082,3 @@
     </script>
 </body>
 </html>
-
-
-
-
